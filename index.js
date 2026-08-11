@@ -27,7 +27,7 @@ const start = () => {
         
         if (text === '/start') {
             await bot.sendSticker(chatId, './stickers/sticker2.webp');
-            return bot.sendMessage(chatId, `Добро пожаловать в телеграм бот Yosya`);
+            return bot.sendMessage(chatId, `Добро пожаловать в телеграм бот Yosya! 🚀`);
         }
         if (text === '/info') {
             return bot.sendMessage(chatId, `Тебя зовут ${msg.from.first_name} ${msg.from.username}`);
