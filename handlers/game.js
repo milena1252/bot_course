@@ -5,16 +5,19 @@ const games = {};
 const startGame = async (bot, chatId) => {
     const randomNumber = Math.floor(Math.random() * 10);
 
-    games[chatId] = randomNumber;
+    games[chatId] = {
+        randomNumber,
+        attempts: 0,
+    };
 
     await bot.sendMessage(
         chatId, 
-        'Сейчас я загадаю цифру от 0 до 9, а ты должен ее отгадать!'
+        '🎯 Я загадал цифру от 0 до 9. Попробуй её отгадать!'
     );
 
     return bot.sendMessage(
         chatId, 
-        'Отгадывай!', 
+        'Выбирай цифру:', 
         gameOptions
     );   
 };
@@ -24,27 +27,35 @@ const handleGameCallback = async (bot, chatId, data) => {
         return startGame(bot, chatId);
     }
 
-    const correctNumber = games[chatId];
+    const game = games[chatId];
 
-    if (correctNumber === undefined) {
+    if (!game) {
         return bot.sendMessage(
             chatId,
-            'Сначала начни игру с помощью команды /game'
+            'У тебя сейчас нет активной игры. Запусти её командой /game'
         );
     }
 
-    if (Number(data) === correctNumber) {
-        return bot.sendMessage(
+    const userNumber = Number(data);
+
+    game.attempts++;
+
+    if (userNumber === game.randomNumber) {
+        await bot.sendMessage(
             chatId,
-            `🎉 Поздравляю! Ты отгадал цифру ${correctNumber}`,
+            `🎉 Поздравляю! Ты отгадал цифру ${game.randomNumber}!\nКоличество попыток: ${game.attempts}`,
             againOptions
         );
+
+        delete games[chatId];
+
+        return;
     }
 
     return bot.sendMessage(
         chatId,
-        `❌ К сожалению, ты не угадал. Бот загадал цифру ${correctNumber}`,
-        againOptions
+        `❌ Не угадал!\nПопытка №${game.attempts}\nПопробуй еще раз 👇`,
+        gameOptions
     );
 };
 
