@@ -1,3 +1,18 @@
+const menuOptions = {
+    reply_markup: {
+        keyboard: [
+            [
+                { text: '🎮 Играть' },
+                { text: '👤 Моя информация' },
+            ],
+            [
+                { text: '❓ Помощь' },
+            ],
+        ],
+        resize_keyboard: true,
+    },
+};
+
 const gameOptions = {
     reply_markup: JSON.stringify({
         inline_keyboard: [
@@ -29,7 +44,13 @@ const againOptions = {
             [
                 {
                     text: '🎮 Играть еще раз', 
-                    callback_data: '/again'
+                    callback_data: '/again',
+                },
+            ],
+            [
+                {
+                    text: '🏠 Главное меню',
+                    callback_data: '/menu',
                 },
             ],
         ],
@@ -37,6 +58,7 @@ const againOptions = {
 };
 
 module.exports = {
+    menuOptions,
     gameOptions,
     againOptions,
 };

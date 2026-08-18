@@ -43,7 +43,8 @@ const handleGameCallback = async (bot, chatId, data) => {
     if (userNumber === game.randomNumber) {
         await bot.sendMessage(
             chatId,
-            `🎉 Поздравляю! Ты отгадал цифру ${game.randomNumber}!\nКоличество попыток: ${game.attempts}`,
+            `🎉 Поздравляю! Ты отгадал цифру ${game.randomNumber}!\n` + 
+            `Количество попыток: ${game.attempts}`,
             againOptions
         );
 
@@ -54,7 +55,9 @@ const handleGameCallback = async (bot, chatId, data) => {
 
     return bot.sendMessage(
         chatId,
-        `❌ Не угадал!\nПопытка №${game.attempts}\nПопробуй еще раз 👇`,
+        `❌ Не угадал!\n` +
+        `Попытка №${game.attempts}\n` + 
+        `Попробуй еще раз 👇`,
         gameOptions
     );
 };
