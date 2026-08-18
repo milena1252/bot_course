@@ -1,4 +1,5 @@
 const { gameOptions, againOptions } = require('../options');
+const logger = require('../utils/logger');
 
 const games = {};
 
@@ -9,6 +10,10 @@ const startGame = async (bot, chatId) => {
         randomNumber,
         attempts: 0,
     };
+
+    logger.info(
+        `Game started for chat ${chatId}`
+    );
 
     await bot.sendMessage(
         chatId, 
@@ -40,7 +45,15 @@ const handleGameCallback = async (bot, chatId, data) => {
 
     game.attempts++;
 
+    logger.info(
+        `Game attempt: chat=${chatId}, attempt=${game.attempts}, userNumber=${userNumber}`
+    );
+
     if (userNumber === game.randomNumber) {
+        logger.info(
+            `Game won: chat=${chatId}, attempts=${game.attempts}`
+        );
+
         await bot.sendMessage(
             chatId,
             `🎉 Поздравляю! Ты отгадал цифру ${game.randomNumber}!\n` + 

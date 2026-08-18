@@ -32,9 +32,21 @@ bot.setMyCommands([
     },
 ]);
 
-bot.on('message', (msg) => handleMessage(bot, msg));
+bot.on('message', async (msg) => {
+    try {
+        await handleMessage(bot, msg);
+    } catch(error) {
+        console.error('Message handler error:', error);
+    }
+});
 
-bot.on('callback_query', (msg) => handleCallbackQuery(bot, msg));
+bot.on('callback_query', async(msg) => {
+    try {
+        await handleCallbackQuery(bot, msg);
+    } catch(error) {
+        console.error('Callback handler error:', error);
+    }
+});
 
 bot.on('polling_error', (error) => {
     console.error('Polling error:', error);
